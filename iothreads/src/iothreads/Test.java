@@ -8,6 +8,7 @@ import javax.xml.bind.DatatypeConverter;
 public class Test {
 
 	private Vector<String> lines = new Vector<String>();
+	private int k = 0;
 
 	private void readFile(String filename) throws Exception {
 		FileReader fin = new FileReader(new File(filename));
@@ -47,8 +48,8 @@ public class Test {
 	private void process() {
 		Vector<String> newLines = new Vector<String>();
 		for (String line : lines) {
-			line = enc(line);
-			newLines.add(line);
+			line = enc( camelCase(line) );
+			newLines.add(camelCase(line));
 			// System.out.println(line);
 		}
 		lines = newLines;
@@ -57,22 +58,39 @@ public class Test {
 	private void undo() {
 		Vector<String> newLines = new Vector<String>();
 		for (String line : lines) {
-			line = dec(line);
-			newLines.add(line);
+			line = dec(camelCase(line));
+			newLines.add(camelCase(line));
 			// System.out.println(line);
 		}
 		lines = newLines;
+	}
+	
+	private String camelCase(String name) {
+		char[] cc = name.toCharArray();
+		for (int i = 0; i < cc.length; i++) {
+			
+		}
+		
+		return new String(cc);
+	}
+	
+	private void printData() {
+		for (String line : lines) {
+			System.out.println(line);
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		Test test = new Test();
 
-		// test.readFile("test.data");
-		// test.process();
-		// test.writeFile("test_new.data");
-
+		test.readFile("test.data");
+		test.process();
+		test.writeFile("test_new.data");
+		 
 		test.readFile("test_new.data");
 		test.undo();
+		
+		test.printData();
 
 	}
 
